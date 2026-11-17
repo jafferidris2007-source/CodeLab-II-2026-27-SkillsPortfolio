@@ -4,6 +4,7 @@ import random
 difficulty = ""
 num1 = 0
 num2 = 0
+operation = ""
 
 root = tk.Tk()
 root.title("Math Challenge")
@@ -50,7 +51,15 @@ def displayProblem():
     num1 = randomInt()
     num2 = randomInt()
 
-    problem_label.config(text=f"{num1} + {num2}")
+    decideOperation()
+    problem_label.config(text=f"{num1} {operation} {num2}")
+
+def decideOperation():
+    global operation
+
+    operation = random.choice(["+","-"])
+
+    return operation
 
 
 button_Easy = tk.Button(root, text = "Easy", font =("Arial", 18), command=choose_easy)
