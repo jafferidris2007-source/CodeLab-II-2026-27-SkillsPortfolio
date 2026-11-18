@@ -5,6 +5,8 @@ difficulty = ""
 num1 = 0
 num2 = 0
 operation = ""
+correct_answer = 0
+attempts = 0
 
 root = tk.Tk()
 root.title("Math Challenge")
@@ -18,6 +20,9 @@ question_label.pack(pady = 30)
 
 problem_label = tk.Label(root, text="Your question will appear here", font=("Arial", 20))
 problem_label.pack(pady=20)
+
+answer_entry = tk.Entry(root, font = ("Arial", 18))
+answer_entry.pack(pady=10)
 
 def choose_easy():
     global difficulty
@@ -52,7 +57,10 @@ def displayProblem():
     num2 = randomInt()
 
     decideOperation()
+    calculateAnswer()
     problem_label.config(text=f"{num1} {operation} {num2}")
+
+    print(correct_answer)
 
 def decideOperation():
     global operation
@@ -61,7 +69,39 @@ def decideOperation():
 
     return operation
 
+def calculateAnswer():
+    global correct_answer
 
+    if operation == "+":
+        correct_answer = num1 + num2
+
+    elif operation == "-":
+        correct_answer = num1 - num2
+
+    return correct_answer
+
+def isCorrect():
+    global attempts
+
+    user_answer = answer_entry.get()
+
+    if user_answer == "":
+        question_label.config(text = "Please enter an answer!") 
+        return
+    
+    try:
+        user_answer = int(user_answer)
+    except ValueError:
+        question_label.config(text = "Please enter a valid number!")
+        return
+
+    if user_answer == correct_answer:
+        question_label.config(text = "Correct! well done!")
+
+    else:
+        question_label.config(text = "Incorrect! Try again")
+    
+        
 button_Easy = tk.Button(root, text = "Easy", font =("Arial", 18), command=choose_easy)
 button_Easy.pack(pady = 10)
 
@@ -70,6 +110,9 @@ button_Medium.pack(pady = 10)
 
 button_Hard = tk.Button(root, text = "Hard", font = ("Arial", 18), command=choose_hard)
 button_Hard.pack(pady = 10)
+
+submit_button = tk.Button (root, text = "Submit Answer", font = ("Arial", 16))
+submit_button.pack(pady=10)
 
 root.mainloop()
 
