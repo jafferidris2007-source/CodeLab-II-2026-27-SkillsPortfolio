@@ -8,6 +8,8 @@ operation = ""
 correct_answer = 0
 attempts = 0
 score = 0
+question_number = 0
+question_finished = False
 
 root = tk.Tk()
 root.title("Math Challenge")
@@ -55,7 +57,7 @@ def randomInt():
         return random.randint(1000, 9999)
 
 def displayProblem():
-    global num1, num2, attempts
+    global num1, num2, attempts, question_number, question_finished
 
     num1 = randomInt()
     num2 = randomInt()
@@ -63,9 +65,13 @@ def displayProblem():
     attempts = 0
     answer_entry.delete(0, tk.END)
 
+    question_number += 1
+
+    question_finished = False
+
     decideOperation()
     calculateAnswer()
-    problem_label.config(text=f"{num1} {operation} {num2}")
+    problem_label.config(text=f"Question {question_number} : {num1} {operation} {num2}")
 
 
 def decideOperation():
@@ -87,9 +93,12 @@ def calculateAnswer():
     return correct_answer
 
 def isCorrect():
-    global attempts, score
+    global attempts, score, question_finished
 
     if attempts >= 2:
+        return
+
+    if question_finished:
         return
 
     user_answer = answer_entry.get()
@@ -105,24 +114,39 @@ def isCorrect():
         return
 
     if user_answer == correct_answer:
+        question_finished = True
 
         if attempts == 0:
             score += 10
             question_label.config(text = "Correct! well done! You earned 10 points!")
-            score_label.config(text = "Score:" + str(score))
+            score_label.config(text ="Score: " + str(score))
+            root.after(1000, nextQuestion)
 
         else:
             score +=5
-            question_label.config(text = "Correct! You earnd 5 points!")
+            question_label.config(text = "Correct! You earned 5 points!")
+            score_label. config(text ="Score: " + str(score))
+            root.after(1000, nextQuestion)
 
     else:
         attempts += 1
 
         if attempts < 2:
             question_label.config(text = "Incorrect! Try again. One attempt left! ")
+            
 
         else:
+            question_finished = True
             question_label.config(text = "No more attempts! The answer was" + str(correct_answer))
+            root.after(1000, nextQuestion)
+
+def nextQuestion():
+    if question_number < 10:
+        displayProblem()
+
+    else:
+        question_label.config(text = "Quiz completed!")
+        problem_label.config(text = "You finished all 10 questions!")
     
         
 button_Easy = tk.Button(root, text = "Easy", font =("Arial", 18), command=choose_easy)
