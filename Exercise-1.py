@@ -7,6 +7,7 @@ num2 = 0
 operation = ""
 correct_answer = 0
 attempts = 0
+score = 0
 
 root = tk.Tk()
 root.title("Math Challenge")
@@ -20,6 +21,9 @@ question_label.pack(pady = 30)
 
 problem_label = tk.Label(root, text="Your question will appear here", font=("Arial", 20))
 problem_label.pack(pady=20)
+
+score_label = tk.Label(root, text = "Score: 0", font = ("Arial", 16))
+score_label.pack()
 
 answer_entry = tk.Entry(root, font = ("Arial", 18))
 answer_entry.pack(pady=10)
@@ -63,7 +67,6 @@ def displayProblem():
     calculateAnswer()
     problem_label.config(text=f"{num1} {operation} {num2}")
 
-    print(correct_answer)
 
 def decideOperation():
     global operation
@@ -84,7 +87,7 @@ def calculateAnswer():
     return correct_answer
 
 def isCorrect():
-    global attempts
+    global attempts, score
 
     if attempts >= 2:
         return
@@ -102,13 +105,21 @@ def isCorrect():
         return
 
     if user_answer == correct_answer:
-        question_label.config(text = "Correct! well done!")
+
+        if attempts == 0:
+            score += 10
+            question_label.config(text = "Correct! well done! You earned 10 points!")
+            score_label.config(text = "Score:" + str(score))
+
+        else:
+            score +=5
+            question_label.config(text = "Correct! You earnd 5 points!")
 
     else:
         attempts += 1
 
         if attempts < 2:
-            question_label.config(text = "Incorrect! Try again. One attemt left!")
+            question_label.config(text = "Incorrect! Try again. One attempt left! ")
 
         else:
             question_label.config(text = "No more attempts! The answer was" + str(correct_answer))
