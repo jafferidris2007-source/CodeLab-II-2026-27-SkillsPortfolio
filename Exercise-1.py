@@ -51,10 +51,13 @@ def randomInt():
         return random.randint(1000, 9999)
 
 def displayProblem():
-    global num1, num2
+    global num1, num2, attempts
 
     num1 = randomInt()
     num2 = randomInt()
+
+    attempts = 0
+    answer_entry.delete(0, tk.END)
 
     decideOperation()
     calculateAnswer()
@@ -83,6 +86,9 @@ def calculateAnswer():
 def isCorrect():
     global attempts
 
+    if attempts >= 2:
+        return
+
     user_answer = answer_entry.get()
 
     if user_answer == "":
@@ -99,7 +105,13 @@ def isCorrect():
         question_label.config(text = "Correct! well done!")
 
     else:
-        question_label.config(text = "Incorrect! Try again")
+        attempts += 1
+
+        if attempts < 2:
+            question_label.config(text = "Incorrect! Try again. One attemt left!")
+
+        else:
+            question_label.config(text = "No more attempts! The answer was" + str(correct_answer))
     
         
 button_Easy = tk.Button(root, text = "Easy", font =("Arial", 18), command=choose_easy)
@@ -111,7 +123,7 @@ button_Medium.pack(pady = 10)
 button_Hard = tk.Button(root, text = "Hard", font = ("Arial", 18), command=choose_hard)
 button_Hard.pack(pady = 10)
 
-submit_button = tk.Button (root, text = "Submit Answer", font = ("Arial", 16))
+submit_button = tk.Button (root, text = "Submit Answer", font = ("Arial", 16), command=isCorrect)
 submit_button.pack(pady=10)
 
 root.mainloop()
