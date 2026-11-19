@@ -16,27 +16,42 @@ question_finished = False
 root = tk.Tk()#Creates the window.
 root.title("Math Challenge")#Used to display Math challenge at the top of the window.
 root.geometry("600x459")#Creates the window with how many pixels.
+root.configure(bg="#F4F6FC")
+root.grid_columnconfigure(0, weight=1, uniform="columns")
+root.grid_columnconfigure(1, weight=3, uniform="columns")
+root.grid_columnconfigure(2, weight=1, uniform="columns")
+
+root.grid_rowconfigure(0, weight=1)
+root.grid_rowconfigure(1, weight=1)
+root.grid_rowconfigure(2, weight=1)
+root.grid_rowconfigure(3, weight=1)
+root.grid_rowconfigure(4, weight=1)
+root.grid_rowconfigure(5, weight=1)
+root.grid_rowconfigure(6, weight=1)
+root.grid_rowconfigure(7, weight=1)
+root.grid_rowconfigure(8, weight=1)
+
 
 #All the TKinter Label's, that are uesd to display text inside a window.
 #To Display the game title
-title = tk.Label(root, text="Math Challenge", font=("Arial", 24))
-title.pack()#When creating a label, it doesnt mean it will appear in the window, that's why we need to use pack().
+title = tk.Label(root, text="Math Challenge", font=("Arial", 26, "bold"),  bg="#F4F6FC", fg="#293B63")
+title.grid(row=0, column=1, pady=10)
 
 #To display the instructions and feedback.
-question_label = tk.Label(root, text="Choose Your Difficulty.",font=("Arial", 18))
-question_label.pack(pady = 30)
+question_label = tk.Label(root, text="Choose Your Difficulty.",font=("Arial", 16), bg="#F4F6FC", fg="#596780")
+question_label.grid(row=1, column=1, pady=20)
 
 #To Display the current maths question.
-problem_label = tk.Label(root, text="Your question will appear here", font=("Arial", 20))
-problem_label.pack(pady=20)
+problem_label = tk.Label(root, text="Your question will appear here", font=("Arial", 22, "bold"), bg="#F4F6FC", fg="#293B63", padx=20, pady=12)
+problem_label.grid(row=2, column=1, pady=20)
 
 #To display the player's current score.
-score_label = tk.Label(root, text = "Score: 0", font = ("Arial", 16))
-score_label.pack()
+score_label = tk.Label(root, text = "Score: 0", font = ("Arial", 15, "bold"), bg="#F4F6FC", fg="#6255D9")
+score_label.grid(row=0, column=2, sticky="e", padx=20)
 
 #It creates an input box so the player's can answer.
 answer_entry = tk.Entry(root, font = ("Arial", 18)) #creates a box where the player can type.
-answer_entry.pack(pady=10)
+answer_entry.grid(row=3, column=1, pady=10)
 
 
 #All the Tkinter Functions
@@ -50,9 +65,9 @@ def choose_easy():
     global difficulty #It allows the function to change the variable created outside it.
     difficulty = "Easy" #It stores the difficulty selected by the player, which is easy in this case.
     
-    button_Easy.pack_forget()
-    button_Medium.pack_forget()
-    button_Hard.pack_forget()
+    button_Easy.grid_forget()
+    button_Medium.grid_forget()
+    button_Hard.grid_forget()
 
     question_label.config(text="Easy difficulty selected!")
     displayProblem() #This calls the function and display a new question.
@@ -62,9 +77,9 @@ def choose_medium():
     global difficulty
     difficulty = "Medium"
 
-    button_Easy.pack_forget()
-    button_Medium.pack_forget()
-    button_Hard.pack_forget()
+    button_Easy.grid_forget()
+    button_Medium.grid_forget()
+    button_Hard.grid_forget()
     
     question_label.config(text="Medium difficulty selected!")
     displayProblem()
@@ -74,9 +89,9 @@ def choose_hard():
     global difficulty
     difficulty = "Hard"
 
-    button_Easy.pack_forget()
-    button_Medium.pack_forget()
-    button_Hard.pack_forget()
+    button_Easy.grid_forget()
+    button_Medium.grid_forget()
+    button_Hard.grid_forget()
 
     question_label.config(text="Hard difficulty selected!")
     displayProblem()
@@ -223,7 +238,7 @@ def displayResults():
     problem_label.config(text="Final Score: " + str(score) + "/100")
     score_label.config(text="Grade: " + grade)#It displays the player's grade
 
-    replay_button.pack(pady=10)
+    replay_button.grid(row=8, column=1, pady=10)
 
 #It resets all the quiz variables so the player can play again.
 def playAgain():
@@ -241,32 +256,33 @@ def playAgain():
     score_label.config(text="Score: 0")
     answer_entry.delete(0, tk.END)
 
-    button_Easy.pack(pady=10)
-    button_Medium.pack(pady=10)
-    button_Hard.pack(pady=10)
+    button_Easy.grid(row=4, column=1, pady=5)
+    button_Medium.grid(row=5, column=1, pady=5)
+    button_Hard.grid(row=6, column=1, pady=5)
 
-    replay_button.pack_forget()
+    replay_button.grid_forget()
     
 #All the TKinter buttons. In Tkinter, we use tk.Button() to create a button. 
 
 #It create's the buttons used to select the easy difficulty       
-button_Easy = tk.Button(root, text = "Easy", font =("Arial", 18), command=choose_easy)
-button_Easy.pack(pady = 10)
+button_Easy = tk.Button(root, text = "Easy", font =("Arial", 18), width=10, height=1, command=choose_easy)
+button_Easy.grid(row=4, column=1, pady=5)
 
 #It create's the buttons used to select the medium difficulty 
-button_Medium = tk.Button(root, text = "Medium", font = ("Arial", 18), command=choose_medium)
-button_Medium.pack(pady = 10)
+button_Medium = tk.Button(root, text = "Medium", font = ("Arial", 18), width=10, height=1, command=choose_medium)
+button_Medium.grid(row=5, column=1, pady=5)
 
 #It create's the buttons used to select the hard difficulty 
-button_Hard = tk.Button(root, text = "Hard", font = ("Arial", 18), command=choose_hard)
-button_Hard.pack(pady = 10)
+button_Hard = tk.Button(root, text = "Hard", font = ("Arial", 18), width=10, height=1, command=choose_hard)
+button_Hard.grid(row=6, column=1, pady=5)
 
 #It create's the button used to submit an answer by the player
-submit_button = tk.Button (root, text = "Submit Answer", font = ("Arial", 16), command=isCorrect)
-submit_button.pack(pady=10)
+submit_button = tk.Button (root, text = "Submit Answer", font = ("Arial", 18), width=15, height=1, command=isCorrect)
+submit_button.grid(row=7, column=1, pady=10)
 
 #It creates a button that allows the player to replay the quiz.
-replay_button = tk.Button(root, text="Play Again", font=("Arial", 16), command=playAgain)
+replay_button = tk.Button(root, text="Play Again", font=("Arial", 18),width=15, height=1, command=playAgain)
+
 
 #root.mainloop() starts the window and keeps it running, thats why it's at the end of the whole code.
 root.mainloop()
