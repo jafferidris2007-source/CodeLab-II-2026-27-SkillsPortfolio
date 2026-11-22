@@ -26,5 +26,18 @@ punchline_label.pack(pady=10)
 joke_button = tk.Button(root, text="Alexa tell me a joke")
 joke_button.pack(pady=10)
 
+
+file = open("randomJokes.txt", "r")#Python opens "randomJokes.txt"(file) to read its contents.
+jokes = file.readlines()#This reads the file and stores each line
+file.close()#This closes the file after we've finished reading it.
+
+#This line gets the first joke from our list, removes unnecessary whitespace and newline, and separates the setup and punchline wherever it finds a ?
+selected_joke = random.choice(jokes)#It selects a random joke from our list.
+joke_parts = selected_joke.strip().split("?")
+
+setup = joke_parts[0]#contains the joke's question.
+punchline = joke_parts[1]#contains the answer of the question.
+#just To check whether it works
+
 #root.mainloop() starts the window and keeps it running, thats why it's at the end of the whole code.
 root.mainloop()
