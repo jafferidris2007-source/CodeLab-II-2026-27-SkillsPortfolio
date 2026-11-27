@@ -1,0 +1,14 @@
+{
+    "Quiz Results": [
+        {
+            "difficulty": "Easy",
+            "score": 100,
+            "grade": "A"
+        },
+        {
+            "difficulty": "Medium",
+            "score": 0,
+            "grade": "F"
+        }
+    ]
+}
